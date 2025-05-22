@@ -1,0 +1,52 @@
+html,
+body {
+    width: 100vw;
+    height: 100vh;
+    color: white;
+    box-sizing: border-box;
+}
+
+
+.main {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    width: 500px;
+    height: 500px;
+    background-color: #1F232C;
+    border-radius: 1rem;
+}
+
+.upper {
+    text-align: center;
+    height: 20%;
+}
+
+.bottom {
+    height: 50%;
+}
+
+form {
+    width: 200px;
+    margin: 0 auto;
+}
+
+form>* {
+    display: block;
+    width: 200px;
+    box-sizing: border-box;
+    margin: 20px 0;
+}
+
+form>input[type='text'],
+form>input[type='password'] {
+    padding: 5% 5%;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+}

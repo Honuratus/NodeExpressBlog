@@ -1,0 +1,34 @@
+
+<%- include("partials/header.ejs") %>
+
+<% if (posts && posts.length>0) { %>
+
+<div class="content-container">
+    <% for (let i = 0; i<posts.length; i++) { %>
+
+        <div class="blog-info-container <% if (i % 2 == 0) { %> l <% } else  {%> d <% } %>">
+            <div class="blog-info-content">
+                <button class="btn btn-primary mybtn"><%= posts[i].postCategory %></button>
+                <h2 class="blog-info-title"><a class="blog-info-link" href="/post/<%= posts[i].id %>"><%= posts[i].postTitle %></a></h2>
+                <p class="blog-info-text"><%= posts[i].postText %></p>
+            </div>
+        </div>
+        
+        <% } %>
+        
+        <% } else { %>
+        
+        <div class="blog-info-container l">
+            <div class="blog-info-content">
+                <h2 class="blog-info-title" style="text-align: center;"><a class="blog-info-link">There is no post!</a></h2>
+            </div>
+        </div>
+        
+        <% } %>
+</div>
+
+
+
+
+
+<%- include("partials/footer.ejs") %>

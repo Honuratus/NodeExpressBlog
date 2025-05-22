@@ -1,0 +1,257 @@
+/* Default Styles */
+
+html,
+body {
+    position: relative;
+    margin: 0;
+    box-sizing: border-box;
+    color: white;
+    width: 100vw;
+    height: 100vh;
+    line-height: 1.5;
+}
+
+body {
+    background-color: #1D1E20;
+}
+
+footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 970px;
+    margin: 0 auto;
+}
+
+footer p {
+    text-align: center;
+    margin: 10px;
+}
+
+hr {
+    color: white;
+    height: 2px;
+    margin: 0;
+}
+
+h1 {
+    font-size: 2.5rem;
+
+}
+
+h2 {
+    font-size: 3rem;
+}
+
+p {
+    font-size: 19px;
+}
+
+
+
+
+/* navbar */
+
+.header-content {
+    width: 970px;
+}
+
+.navbar {
+    font-family: 'Oxygen';
+}
+
+.nav-link {
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.nav-item {
+    margin-left: 30px;
+}
+
+.nav-item-br {
+    display: none;
+    background-color: #fff;
+    text-align: center;
+    width: 20%;
+    margin: 0 auto;
+
+}
+
+
+
+.navbar-collapse {
+    flex-grow: 0;
+}
+
+.mynavbar {
+    padding-top: 1%;
+    padding-bottom: 1%;
+}
+
+
+
+/* blog info div design */
+
+.content-container {
+    min-height: 100vh;
+}
+
+.blog-post-container {
+    padding: 70px 0;
+    min-height: 100vh;
+}
+
+.blog-info-container {
+    padding: 70px 0;
+}
+
+
+
+.blog-info-content {
+    width: 970px;
+    padding: 10px 0;
+    margin: 0 auto;
+}
+
+.d {
+    background-color: #2E2E33;
+}
+
+.blog-info-text {
+    margin: 40px 0;
+}
+
+.blog-info-title {
+    margin: 45px 0;
+}
+
+.blog-info-link {
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+}
+
+.blog-info-link:hover {
+    text-decoration: underline;
+}
+
+.mybtn {
+    display: block;
+    background-color: #017374;
+    border-color: #017374;
+    --bs-btn-active-bg: #017374;
+    --bs-btn-active-border-color: #017374;
+}
+
+.mybtn:hover,
+.mybtn:active,
+.mybtn:focus-visible {
+    background-color: #017374;
+    border-color: #017374;
+}
+
+/* blog info author */
+.author-name,
+.post-created {
+    display: inline-block;
+    font-size: 0.9rem;
+    color: #017374;
+}
+
+
+
+/* Responsive Design */
+
+@media (min-width: 300px) and (max-width: 991.98px) {
+    .blog-info-content {
+        width: 90%;
+    }
+
+    footer {
+        width: 90%;
+        padding: 1px;
+    }
+
+    .blog-info-title {
+        font-size: 1.8rem;
+        margin: 23px 0;
+    }
+
+    .blog-info-text {
+        font-size: 1.18rem;
+        color: lightgray;
+    }
+
+    .brand {
+        font-size: 1.5rem;
+        margin: 0;
+    }
+
+    .navbar-nav {
+        margin-top: 15px;
+    }
+
+    .nav-item {
+        margin: 0;
+    }
+
+    .nav-item-br {
+        display: block;
+    }
+
+    .nav-link {
+        font-size: 1rem;
+        text-align: center;
+
+    }
+
+    .navbar-toggler {
+        padding: 0.25rem;
+        border: none;
+        font-size: 1rem;
+    }
+
+    .navbar-toggler-icon {
+        width: 1.5em;
+        height: 1.5em;
+    }
+
+    .navbar-toggler:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .mybtn {
+        font-size: 0.8rem;
+    }
+
+}
+
+/* Admin Page */
+
+.post-lister {
+    display: block;
+    width: 970px;
+    margin: 0 auto;
+    padding: 70px 0;
+}
+
+.post-container {
+    display: flex;
+    padding: 5px 0;
+    margin-bottom: 10px;
+    justify-content: space-between;
+}
+
+.post-container>* {
+    display: inline-block;
+}
+
+.post-container-btn {
+    vertical-align: unset;
+}
+
+.post-container-buttons>* {
+    margin-left: 10px;
+}

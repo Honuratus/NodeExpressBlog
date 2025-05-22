@@ -1,0 +1,53 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #1D1E20;
+}
+
+/* New Post Form  */
+
+.main-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+    height: 80%;
+    background-color: #2E2E33;
+    border-radius: 15px;
+    padding: 10px;
+    justify-content: center;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.main-form {
+    width: 100%;
+    overflow-y: scroll;
+}
+
+.main-form>input,
+.main-form>textarea {
+    display: block;
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.main-form>input {
+    padding: 0 10px;
+}
+
+.main-form>label {
+    color: white;
+}
+
+.main-form>h3 {
+    text-align: center;
+    color: white;
+}

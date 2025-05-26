@@ -98,7 +98,7 @@ p {
 }
 
 .blog-post-container {
-    padding: 70px 0;
+    padding: 5px 0;
     min-height: 100vh;
 }
 
@@ -160,6 +160,77 @@ p {
 }
 
 
+/*  Markdown Content */
+.markdown-content h1 {
+    font-size: 2.4rem;
+    margin: 30px 0 15px;
+    font-weight: bold;
+}
+
+.markdown-content h2 {
+    font-size: 2rem;
+    margin: 25px 0 12px;
+    font-weight: bold;
+}
+
+.markdown-content h3 {
+    font-size: 1.6rem;
+    margin: 20px 0 10px;
+    font-weight: bold;
+}
+
+.markdown-content p {
+    font-size: 1.15rem;
+    line-height: 1.75;
+    margin-bottom: 1.2rem;
+    color: #e0e0e0; /* Light gray for dark backgrounds */
+}
+
+.markdown-content ul,
+.markdown-content ol {
+    padding-left: 2rem;
+    font-size: 1.1rem;
+    margin-bottom: 1.2rem;
+}
+
+.markdown-content li {
+    margin-bottom: 0.5rem;
+}
+
+.markdown-content a {
+    color: #66b3ff;
+    text-decoration: underline;
+}
+
+.markdown-content blockquote {
+    border-left: 4px solid #555;
+    padding-left: 1rem;
+    color: #aaa;
+    font-style: italic;
+    margin: 1rem 0;
+}
+
+.markdown-content code {
+    background-color: #2E2E33;
+    color: #ffcb6b;
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 0.95rem;
+}
+
+.markdown-content pre {
+    background-color: #2E2E33;
+    color: #eaeaea;
+    padding: 1rem;
+    overflow-x: auto;
+    border-radius: 6px;
+    margin-bottom: 1.2rem;
+    font-family: monospace;
+    font-size: 0.95rem;
+}
+
+
 
 /* Responsive Design */
 
@@ -203,7 +274,6 @@ p {
     .nav-link {
         font-size: 1rem;
         text-align: center;
-
     }
 
     .navbar-toggler {
@@ -226,7 +296,69 @@ p {
         font-size: 0.8rem;
     }
 
+    /* --- MARKDOWN ELEMENTS --- */
+    .markdown-content h1 {
+        font-size: 1.6rem;
+    }
+
+    .markdown-content h2 {
+        font-size: 1.4rem;
+    }
+
+    .markdown-content h3 {
+        font-size: 1.2rem;
+    }
+
+    .markdown-content p {
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    .markdown-content ul,
+    .markdown-content ol {
+        padding-left: 1.5rem;
+        font-size: 1rem;
+    }
+
+    .markdown-content blockquote {
+        font-size: 1rem;
+        border-left: 4px solid #ccc;
+        padding-left: 1rem;
+        color: #666;
+        margin: 1rem 0;
+    }
+
+    .markdown-content pre,
+    .markdown-content code {
+        font-size: 0.9rem;
+        background-color: #2E2E33;
+        color: #ffcb6b;
+        padding: 0.5rem;
+        border-radius: 4px;
+        overflow-x: auto;
+    }
+
+    .markdown-content img {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .markdown-content table {
+        width: 100%;
+        font-size: 0.9rem;
+    }
+
+    .markdown-content th,
+    .markdown-content td {
+        padding: 0.5rem;
+        border: 1px solid #dee2e6;
+    }
+
+    .markdown-content hr {
+        margin: 1rem 0;
+    }
 }
+
 
 /* Admin Page */
 
@@ -255,3 +387,17 @@ p {
 .post-container-buttons>* {
     margin-left: 10px;
 }
+
+
+.categories > *{
+    display: inline-block;
+}
+
+.nav-item input.form-control{
+    display: inline-block;
+    padding: 3px 5px;
+    line-height: 1.5;
+    vertical-align: middle;
+}
+
+

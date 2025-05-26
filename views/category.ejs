@@ -1,0 +1,44 @@
+<%- include("partials/header.ejs") %>
+
+<h1>Category: <%= category %></h1>
+
+<% if (posts && posts.length > 0) { %>
+
+<div class="content-container">
+  <% for(let i=0; i<posts.length; i++) { %>
+    <div class="blog-info-container <% if (i % 2 == 0) { %> l <% } else { %> d <% } %>">
+      <div class="blog-info-content">
+        <div class="categories">
+          <% const categories = posts[i].postCategory.split(','); %>
+          <% categories.forEach(cat => { %>
+          <button class="btn btn-primary mybtn" style="margin-right: 5px;">
+              <a href="/category/<%= cat.trim() %>" style="color: white; text-decoration: none;">
+              <%= cat.trim() %>
+              </a>
+          </button>
+          <% }); %>
+        </div>
+        <h2 class="blog-info-title">
+          <a class="blog-info-link" href="/post/<%= posts[i].slug %>">
+            <%= posts[i].postTitle %>
+          </a>
+        </h2>
+        <p class="blog-info-text"><%= posts[i].snippet %></p>
+        <p class="author-name">Author: <%= posts[i].admin.username %></p>
+        <p class="post-created"><%= new Date(posts[i].createdAt).toLocaleDateString() %></p>
+      </div>
+    </div>
+  <% } %>
+</div>
+
+<% } else { %>
+
+<div class="blog-info-container l">
+  <div class="blog-info-content">
+    <h2 class="blog-info-title" style="text-align:center;">No posts found in this category.</h2>
+  </div>
+</div>
+
+<% } %>
+
+<%- include("partials/footer.ejs") %>

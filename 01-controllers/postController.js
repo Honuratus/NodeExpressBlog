@@ -1,11 +1,19 @@
+import { where } from "sequelize";
 import { Admin } from "../02-models/adminModel.js"
 import Post from "../02-models/postModel.js"
+import slugify from "../04-utils/slugify.js";
+import { marked } from "marked";
+import striptags from "striptags";
+import { Op } from "sequelize";
+
 
 // post controllers
 export const createPost = async (req, res) => {
+    const slug = slugify(req.body.postTitle);
     try {
         const post = await Post.create({
             postTitle: req.body.postTitle,
+            slug,
             postText: req.body.postText,
             postCategory: req.body.postCategory,
             adminID: req.user.id
@@ -18,49 +26,132 @@ export const createPost = async (req, res) => {
 }
 
 export const getRecentPosts = async (req, res) => {
-    try {
-        const recentPosts = await Post.findAll({
-            order: [['createdAt', 'DESC']],
-            limit: 10
-        });
-        console.log(recentPosts);
-        res.render('index', { posts: recentPosts });
-    }
-    catch (error) {
-        console.error(error);
-        throw error;
-    }
+  try {
+    const recentPostsRaw = await Post.findAll({
+        include: [
+            {
+                model: Admin,
+                as: 'admin',
+                attributes: ['username'],
+            }
+        ],
+
+        order: [['createdAt', 'DESC']],
+        limit: 10
+    });
+
+    // Markdown'dan HTML ve plain text snippet üret
+    const recentPosts = recentPostsRaw.map(post => {
+      const html = marked(post.postText);
+      const text = striptags(html); // HTML etiketleri temizlendi
+      const snippet = text.length > 200 ? text.substring(0, 200) + "..." : text;
+      return { ...post.toJSON(), snippet };
+    });
+
+    res.render('index', { posts: recentPosts });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
 }
+
+export const getPostsByCategory = async (req, res) => {
+    const category = req.params.categoryName.toLowerCase();
+
+    try {
+        const posts = await Post.findAll({
+            include: [
+                {
+                    model: Admin,
+                    as: 'admin', 
+                    attributes: ['username']
+                }
+            ]
+        });
+
+        const filteredPostsRaw = posts.filter(post =>
+            post.postCategory
+                .split(',')
+                .map(c => c.trim().toLowerCase())
+                .includes(category)
+        );
+
+        const filteredPosts = filteredPostsRaw.map(post => {
+            const html = marked(post.postText);
+            const text = striptags(html); // HTML etiketleri temizlendi
+            const snippet = text.length > 200 ? text.substring(0, 200) + "..." : text;
+            return { ...post.toJSON(), snippet };
+        });
+
+        res.render('category', { posts: filteredPosts, category: category });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+};
 
 export const getPost = async (req, res) => {
     try {
         const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan','Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
         
-        const postID = req.params.id;
-        const post = await Post.findByPk(postID);
-        if(!post){
+        const slug = req.params.slug;
+        const post = await Post.findOne({ where: { slug } });
+        if (!post) {
             return res.status(404).send("Post not found!");
         }
 
         const author = await Admin.findByPk(post.adminID);
-        if(!author){
+        if (!author) {
             return res.status(404).send('Author not found!');
         }
 
-        const dateString = post.createdAt;
-        const date = new Date(dateString);
+        const date = new Date(post.createdAt);
         const month = monthNames[date.getMonth()];
         const year = date.getFullYear();
-        const newdate = month + " " + year;
+        const newdate = `${month} ${year}`;
 
-        res.render('postview', { "post": post, "admin": author, "date": newdate });
+        // Markdown içeriğini HTML'ye çevir
+        const htmlContent = marked(post.postText);
 
-    }
-    catch (error) {
+        res.render('postview', { post, admin: author, date: newdate, htmlContent });
+
+    } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");    
     }
 }
+
+
+export const searchPosts = async (req, res) => {
+  const query = req.query.q?.trim().toLowerCase();
+
+  if (!query) return res.redirect("/");
+
+  try {
+    const posts = await Post.findAll({
+      where: {
+        [Op.or]: [
+          { postTitle: { [Op.like]: `%${query}%` } },     // case-insensitive
+          { postText: { [Op.like]: `%${query}%` } }
+        ]
+      },
+      include: [{ model: Admin, as: "admin" }],
+      order: [["createdAt", "DESC"]]
+    });
+
+    res.render("search", {
+      posts,
+      query
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
 
 export const updatePost = async (req, res) => {
     try {

@@ -40,10 +40,9 @@ export const getRecentPosts = async (req, res) => {
         limit: 10
     });
 
-    // Markdown'dan HTML ve plain text snippet üret
     const recentPosts = recentPostsRaw.map(post => {
       const html = marked(post.postText);
-      const text = striptags(html); // HTML etiketleri temizlendi
+      const text = striptags(html); 
       const snippet = text.length > 200 ? text.substring(0, 200) + "..." : text;
       return { ...post.toJSON(), snippet };
     });
@@ -79,7 +78,7 @@ export const getPostsByCategory = async (req, res) => {
 
         const filteredPosts = filteredPostsRaw.map(post => {
             const html = marked(post.postText);
-            const text = striptags(html); // HTML etiketleri temizlendi
+            const text = striptags(html); 
             const snippet = text.length > 200 ? text.substring(0, 200) + "..." : text;
             return { ...post.toJSON(), snippet };
         });
@@ -111,7 +110,6 @@ export const getPost = async (req, res) => {
         const year = date.getFullYear();
         const newdate = `${month} ${year}`;
 
-        // Markdown içeriğini HTML'ye çevir
         const htmlContent = marked(post.postText);
 
         res.render('postview', { post, admin: author, date: newdate, htmlContent });
@@ -132,7 +130,7 @@ export const searchPosts = async (req, res) => {
     const posts = await Post.findAll({
       where: {
         [Op.or]: [
-          { postTitle: { [Op.like]: `%${query}%` } },     // case-insensitive
+          { postTitle: { [Op.like]: `%${query}%` } },     
           { postText: { [Op.like]: `%${query}%` } }
         ]
       },

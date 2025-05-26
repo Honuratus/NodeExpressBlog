@@ -8,10 +8,10 @@ function slugify(text) {
     .replace(/ı/g, 'i')
     .replace(/ö/g, 'o')
     .replace(/ç/g, 'c')
-    .replace(/[^\w\s-]/g, '')    // noktalama işaretlerini temizle
-    .replace(/\s+/g, '-')        // boşlukları tireye çevir
-    .replace(/--+/g, '-')        // çift tireleri tek yap
-    .replace(/^-+|-+$/g, '');    // baştaki/sondaki tireleri sil
+    .replace(/[^\w\s-]/g, '')    
+    .replace(/\s+/g, '-')        
+    .replace(/--+/g, '-')        
+    .replace(/^-+|-+$/g, '');    
 }
 
 export default slugify

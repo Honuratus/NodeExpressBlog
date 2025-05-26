@@ -2,33 +2,39 @@
 
 <% if (post) { %>
 
-    
 <div class="blog-post-container">
     <div class="blog-info-content">
         <h2 class="blog-info-title"><%= post.postTitle %></h2>
-        <p class="blog-info-text"><%= post.postText %></p>
+        <div class="markdown-content"><%- htmlContent %></div>
     </div>
 </div>
 
 <div class="blog-info-content">
-    <button class="btn btn-primary mybtn"><%= post.postCategory %></button>
-    <p class="author-name"><%= admin.username %></p>
-    <p class="post-created"><%= date %></p>
+    <% const categories = post.postCategory.split(','); %>
+    <div class="categories">
+        <% categories.forEach(category => { %>
+            <button class="btn btn-primary mybtn" style="margin-right: 5px;">
+            <a href="/category/<%= category.trim() %>" style="color: white; text-decoration: none;">
+                <%= category.trim() %>
+            </a>
+            </button>
+        <% }); %>
+    </div>
+    <p class="author-name">Author: <%= admin.username %></p>
+    <p class="post-created">Date: <%= new Date(post.createdAt).toLocaleDateString() %></p>
+
 </div>
-
-
-
 
 <% } else { %>
 
 <div class="blog-info-container l">
     <div class="blog-info-content">
-        <h2 class="blog-info-title" style="text-align: center;"><a class="blog-info-link">There is no post!</a></h2>
+        <h2 class="blog-info-title" style="text-align: center;">
+            <a class="blog-info-link">There is no post!</a>
+        </h2>
     </div>
 </div>
 
 <% } %>
-
-
 
 <%- include("partials/footer.ejs") %>

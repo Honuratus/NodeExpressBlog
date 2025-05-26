@@ -98,7 +98,7 @@ p {
 }
 
 .blog-post-container {
-    padding: 70px 0;
+    padding: 5px 0;
     min-height: 100vh;
 }
 
@@ -274,7 +274,6 @@ p {
     .nav-link {
         font-size: 1rem;
         text-align: center;
-
     }
 
     .navbar-toggler {
@@ -388,3 +387,17 @@ p {
 .post-container-buttons>* {
     margin-left: 10px;
 }
+
+
+.categories > *{
+    display: inline-block;
+}
+
+.nav-item input.form-control{
+    display: inline-block;
+    padding: 3px 5px;
+    line-height: 1.5;
+    vertical-align: middle;
+}
+
+

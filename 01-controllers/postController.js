@@ -1,11 +1,19 @@
+import { where } from "sequelize";
 import { Admin } from "../02-models/adminModel.js"
 import Post from "../02-models/postModel.js"
+import slugify from "../04-utils/slugify.js";
+import { marked } from "marked";
+import striptags from "striptags";
+import { Op } from "sequelize";
+
 
 // post controllers
 export const createPost = async (req, res) => {
+    const slug = slugify(req.body.postTitle);
     try {
         const post = await Post.create({
             postTitle: req.body.postTitle,
+            slug,
             postText: req.body.postText,
             postCategory: req.body.postCategory,
             adminID: req.user.id
@@ -78,35 +86,35 @@ export const getPostsByCategory = async (req, res) => {
         res.render('category', { posts: filteredPosts, category: category });
     } catch (error) {
         console.error(error);
-        throw error;
+        res.status(500).send("Internal Server Error");
     }
-}
+};
 
 export const getPost = async (req, res) => {
     try {
         const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan','Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
         
-        const postID = req.params.id;
-        const post = await Post.findByPk(postID);
-        if(!post){
+        const slug = req.params.slug;
+        const post = await Post.findOne({ where: { slug } });
+        if (!post) {
             return res.status(404).send("Post not found!");
         }
 
         const author = await Admin.findByPk(post.adminID);
-        if(!author){
+        if (!author) {
             return res.status(404).send('Author not found!');
         }
 
-        const dateString = post.createdAt;
-        const date = new Date(dateString);
+        const date = new Date(post.createdAt);
         const month = monthNames[date.getMonth()];
         const year = date.getFullYear();
-        const newdate = month + " " + year;
+        const newdate = `${month} ${year}`;
 
         const htmlContent = marked(post.postText);
 
-    }
-    catch (error) {
+        res.render('postview', { post, admin: author, date: newdate, htmlContent });
+
+    } catch (error) {
         console.error(error);
         res.status(500).send("Internal Server Error");    
     }

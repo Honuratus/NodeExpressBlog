@@ -18,15 +18,65 @@ export const createPost = async (req, res) => {
 }
 
 export const getRecentPosts = async (req, res) => {
+  try {
+    const recentPostsRaw = await Post.findAll({
+        include: [
+            {
+                model: Admin,
+                as: 'admin',
+                attributes: ['username'],
+            }
+        ],
+
+        order: [['createdAt', 'DESC']],
+        limit: 10
+    });
+
+    const recentPosts = recentPostsRaw.map(post => {
+      const html = marked(post.postText);
+      const text = striptags(html); 
+      const snippet = text.length > 200 ? text.substring(0, 200) + "..." : text;
+      return { ...post.toJSON(), snippet };
+    });
+
+    res.render('index', { posts: recentPosts });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+}
+
+export const getPostsByCategory = async (req, res) => {
+    const category = req.params.categoryName.toLowerCase();
+
     try {
-        const recentPosts = await Post.findAll({
-            order: [['createdAt', 'DESC']],
-            limit: 10
+        const posts = await Post.findAll({
+            include: [
+                {
+                    model: Admin,
+                    as: 'admin', 
+                    attributes: ['username']
+                }
+            ]
         });
-        console.log(recentPosts);
-        res.render('index', { posts: recentPosts });
-    }
-    catch (error) {
+
+        const filteredPostsRaw = posts.filter(post =>
+            post.postCategory
+                .split(',')
+                .map(c => c.trim().toLowerCase())
+                .includes(category)
+        );
+
+        const filteredPosts = filteredPostsRaw.map(post => {
+            const html = marked(post.postText);
+            const text = striptags(html); 
+            const snippet = text.length > 200 ? text.substring(0, 200) + "..." : text;
+            return { ...post.toJSON(), snippet };
+        });
+
+        res.render('category', { posts: filteredPosts, category: category });
+    } catch (error) {
         console.error(error);
         throw error;
     }
@@ -53,7 +103,7 @@ export const getPost = async (req, res) => {
         const year = date.getFullYear();
         const newdate = month + " " + year;
 
-        res.render('postview', { "post": post, "admin": author, "date": newdate });
+        const htmlContent = marked(post.postText);
 
     }
     catch (error) {
@@ -61,6 +111,37 @@ export const getPost = async (req, res) => {
         res.status(500).send("Internal Server Error");    
     }
 }
+
+
+export const searchPosts = async (req, res) => {
+  const query = req.query.q?.trim().toLowerCase();
+
+  if (!query) return res.redirect("/");
+
+  try {
+    const posts = await Post.findAll({
+      where: {
+        [Op.or]: [
+          { postTitle: { [Op.like]: `%${query}%` } },     
+          { postText: { [Op.like]: `%${query}%` } }
+        ]
+      },
+      include: [{ model: Admin, as: "admin" }],
+      order: [["createdAt", "DESC"]]
+    });
+
+    res.render("search", {
+      posts,
+      query
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Internal Server Error");
+  }
+};
+
+
 
 export const updatePost = async (req, res) => {
     try {

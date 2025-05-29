@@ -9,7 +9,9 @@ import {
     getNewPostForm,
     getEditPostForm,
     updatePost,
-    deletePost
+    deletePost,
+    getPostsByCategory,
+    searchPosts,
 } from "../01-controllers/postController.js";
 import passport from "passport";
 
@@ -17,8 +19,9 @@ const router = express.Router()
 
 // blog routes
 router.get("/", getRecentPosts)
-router.get("/post/:id", getPost)
-
+router.get("/post/:slug", getPost)
+router.get("/category/:categoryName", getPostsByCategory)
+router.get("/search", searchPosts)
 
 // admin page routes
 router.get("/admin/posts", isAdmin, getAdminPage)

@@ -6,14 +6,19 @@
 <div class="blog-post-container">
     <div class="blog-info-content">
         <h2 class="blog-info-title"><%= post.postTitle %></h2>
-        <p class="blog-info-text"><%= post.postText %></p>
+        <div class="markdown-content"><%- htmlContent %></div>
     </div>
 </div>
 
 <div class="blog-info-content">
-    <button class="btn btn-primary mybtn"><%= post.postCategory %></button>
-    <p class="author-name"><%= admin.username %></p>
-    <p class="post-created"><%= date %></p>
+    <div class="categories">
+        <% const categories = post.postCategory.split(','); %>
+        <% categories.forEach(category => { %>
+        <button class="btn btn-primary mybtn"><a href="/category/<%=category.trim() %>" style="text-decoration: none; color: inherit;" ><%= category.trim() %></a></button>
+        <% }); %>
+    </div>
+    <p class="author-name"><%= author.username %></p>
+    <p class="post-created"><%= new Date(post.createdAt).toLocaleDateString() %></p>
 </div>
 
 

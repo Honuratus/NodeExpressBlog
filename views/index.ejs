@@ -4,19 +4,27 @@
 <% if (posts && posts.length>0) { %>
 
 <div class="content-container">
-    <% for (let i = 0; i<posts.length; i++) { %>
+    <% posts.forEach((post,i) => { %>
 
         <div class="blog-info-container <% if (i % 2 == 0) { %> l <% } else  {%> d <% } %>">
-            <div class="blog-info-content">
-                <button class="btn btn-primary mybtn"><%= posts[i].postCategory %></button>
-                <h2 class="blog-info-title"><a class="blog-info-link" href="/post/<%= posts[i].id %>"><%= posts[i].postTitle %></a></h2>
-                <p class="blog-info-text"><%= posts[i].postText %></p>
+            <div class="blog-info-content">       
+                <div class="categories">
+                    <% const categories = post.postCategory.split(','); %>
+                    <% categories.forEach(category => { %>
+                    <button class="btn btn-primary mybtn"><a href="/category/<%=category.trim() %>" style="text-decoration: none; color: inherit;" ><%= category.trim() %></a></button>
+                    <% }); %>
+                </div>
+                <h2 class="blog-info-title"><a class="blog-info-link" href="/post/<%= post.slug %>"><%= post.postTitle %></a></h2>
+                <p class="blog-info-text"><%= post.snippet %></p>
+                <p class="author-name"><%= post.admin.username %></p>
+                <p class="post-created"><%= new Date(post.createdAt).toLocaleDateString() %></p>
             </div>
         </div>
         
-        <% } %>
+    <% }); %>
+
         
-        <% } else { %>
+    <% } else { %>
         
         <div class="blog-info-container l">
             <div class="blog-info-content">
@@ -24,7 +32,7 @@
             </div>
         </div>
         
-        <% } %>
+    <% } %>
 </div>
 
 

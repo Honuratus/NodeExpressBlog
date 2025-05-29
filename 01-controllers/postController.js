@@ -1,5 +1,9 @@
 import { Admin } from "../02-models/adminModel.js"
 import Post from "../02-models/postModel.js"
+import { marked } from "marked"
+import striptags from "striptags"
+import { Op } from "sequelize"
+import  slugify  from "../04-utils/slugify.js"
 
 // post controllers
 export const createPost = async (req, res) => {
@@ -8,7 +12,8 @@ export const createPost = async (req, res) => {
             postTitle: req.body.postTitle,
             postText: req.body.postText,
             postCategory: req.body.postCategory,
-            adminID: req.user.id
+            adminID: req.user.id,
+            slug: slugify(postTitle)
         });
         res.redirect('/admin/posts');
     }
@@ -75,7 +80,7 @@ export const getPostsByCategory = async (req, res) => {
             return { ...post.toJSON(), snippet };
         });
 
-        res.render('category', { posts: filteredPosts, category: category });
+        res.render('index', { posts: filteredPosts, category: category });
     } catch (error) {
         console.error(error);
         throw error;
@@ -86,8 +91,8 @@ export const getPost = async (req, res) => {
     try {
         const monthNames = ['Ocak', 'Şubat', 'Mart', 'Nisan','Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'];
         
-        const postID = req.params.id;
-        const post = await Post.findByPk(postID);
+        const slug = req.params.slug;
+        const post = await Post.findOne({where: {slug}});
         if(!post){
             return res.status(404).send("Post not found!");
         }
@@ -104,6 +109,7 @@ export const getPost = async (req, res) => {
         const newdate = month + " " + year;
 
         const htmlContent = marked(post.postText);
+        res.render('postview', {post: post, author: author, htmlContent: htmlContent})
 
     }
     catch (error) {
@@ -130,7 +136,7 @@ export const searchPosts = async (req, res) => {
       order: [["createdAt", "DESC"]]
     });
 
-    res.render("search", {
+    res.render("index", {
       posts,
       query
     });

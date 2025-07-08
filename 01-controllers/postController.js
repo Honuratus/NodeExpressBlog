@@ -137,8 +137,15 @@ export const searchPosts = async (req, res) => {
       order: [["createdAt", "DESC"]]
     });
 
+    const filteredPosts = posts.map(post => {
+        const html = marked(post.postText);
+        const text = striptags(html); 
+        const snippet = text.length > 200 ? text.substring(0, 200) + "..." : text;
+        return { ...post.toJSON(), snippet };
+    });
+
     res.render("index", {
-      posts,
+      posts: filteredPosts,
       query
     });
 

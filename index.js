@@ -21,6 +21,9 @@ const debugMode = true;
 const app = express();
 const port = 3000;
 
+const debug = true
+const addr = debug ? '0.0.0.0' : '127.0.0.1'
+
 app.use(session({
     secret: "secret",
     resave: false,
@@ -75,8 +78,8 @@ app.use("/", postRoutes)
 
 
 
-app.listen(port, '127.0.0.1', () => {
-    console.log(`listening on 127.0.0.1:${port}`);
+app.listen(port, addr, () => {
+    console.log(`listening on ${addr}:${port}`);
 });
 
 

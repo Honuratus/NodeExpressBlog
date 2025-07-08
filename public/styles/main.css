@@ -162,6 +162,12 @@ p {
 
 
 /*  Markdown Content */
+
+.markdown-content > *{
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+}
+
 .markdown-content h1 {
     font-size: 2.4rem;
     margin: 30px 0 15px;
@@ -237,38 +243,42 @@ p {
 
 
 /* Responsive Design */
-
-@media (min-width: 300px) and (max-width: 991.98px) {
+@media (max-width: 991.98px) {
     .blog-info-content {
         width: 100%;
+        padding: 1rem;
     }
 
     footer {
-        width: 90%;
-        padding: 1px;
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.95rem;
+        text-align: center;
     }
 
     .blog-info-title {
-        font-size: 1.8rem;
-        margin: 23px 0;
+        font-size: clamp(1.8rem, 5vw, 2.2rem);
+        margin: 1.2rem 0;
+        line-height: 1.3;
     }
 
     .blog-info-text {
-        font-size: 1.18rem;
-        color: lightgray;
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #ccc;
     }
 
     .brand {
         font-size: 1.5rem;
-        margin: 0;
+        margin: 0.5rem 0;
     }
 
     .navbar-nav {
-        margin-top: 15px;
+        margin-top: 1rem;
     }
 
     .nav-item {
-        margin: 0;
+        margin: 0.3rem 0;
     }
 
     .nav-item-br {
@@ -278,18 +288,19 @@ p {
     .nav-link {
         font-size: 1rem;
         text-align: center;
-
+        padding: 0.5rem;
     }
 
-    .form-control{
-        margin: 0 auto;
+    .form-control {
+        margin: 0.5rem auto;
         font-size: 1rem;
+        padding: 0.75rem;
     }
 
     .navbar-toggler {
-        padding: 0.25rem;
+        padding: 0.5rem;
         border: none;
-        font-size: 1rem;
+        font-size: 1.1rem;
     }
 
     .navbar-toggler-icon {
@@ -303,31 +314,45 @@ p {
     }
 
     .mybtn {
-        font-size: 0.8rem;
+        font-size: 1rem;
+        padding: 0.6rem 1.2rem;
+        min-height: 44px; /* Google/Apple dokunmatik hedef tavsiyesi */
+        margin-bottom: 10px;
     }
 
-    /*  markdown elements */
+    /* Markdown içerik */
+
+    .markdown-content > * {
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
     .markdown-content h1 {
-        font-size: 1.6rem;
+        font-size: clamp(1.8rem, 5vw, 2rem);
+        margin: 1rem 0 0.5rem;
     }
 
     .markdown-content h2 {
-        font-size: 1.4rem;
+        font-size: clamp(1.6rem, 4.5vw, 1.8rem);
+        margin: 1rem 0 0.5rem;
     }
 
     .markdown-content h3 {
-        font-size: 1.2rem;
+        font-size: clamp(1.4rem, 4vw, 1.6rem);
+        margin: 1rem 0 0.5rem;
     }
 
     .markdown-content p {
         font-size: 1rem;
-        line-height: 1.6;
+        line-height: 1.7;
+        margin-bottom: 1rem;
     }
 
     .markdown-content ul,
     .markdown-content ol {
         padding-left: 1.5rem;
         font-size: 1rem;
+        margin-bottom: 1rem;
     }
 
     .markdown-content blockquote {
@@ -340,32 +365,39 @@ p {
 
     .markdown-content pre,
     .markdown-content code {
-        font-size: 0.9rem;
+        font-size: 1rem;
         background-color: #2E2E33;
         color: #ffcb6b;
-        padding: 0.5rem;
+        padding: 0.75rem;
         border-radius: 4px;
         overflow-x: auto;
+        white-space: pre;          /* kesinlikle ekle */
+        line-height: 1.8;          /* satır yüksekliği */
+        max-width: 100%;           /* taşmayı önler */
+        max-height: 300px;         /* istersen sınırla, dikey scroll olur */
+        overflow-y: auto;          /* dikey scroll */
     }
 
     .markdown-content img {
         max-width: 100%;
         height: auto;
+        margin: 1rem 0;
     }
 
     .markdown-content table {
         width: 100%;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
+        border-collapse: collapse;
     }
 
     .markdown-content th,
     .markdown-content td {
-        padding: 0.5rem;
+        padding: 0.75rem;
         border: 1px solid #dee2e6;
     }
 
     .markdown-content hr {
-        margin: 1rem 0;
+        margin: 1.5rem 0;
     }
 }
 

@@ -8,12 +8,14 @@ import sequelize from './database.js'
 import passport from "passport";
 import session from "express-session";
 import LocalStrategy from 'passport-local';
-import { Admin } from "./02-models/adminModel.js";
+import { Admin, createAdmin } from "./02-models/adminModel.js";
 import bcrypt from "bcryptjs";
 
 
 
 await sequelize.sync()
+
+await createAdmin()
 
 const debugMode = true;
 const app = express();

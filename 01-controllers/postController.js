@@ -8,10 +8,11 @@ import  slugify  from "../04-utils/slugify.js"
 // post controllers
 export const createPost = async (req, res) => {
     try {
+        const { postTitle, postText, postCategory } = req.body;
         const post = await Post.create({
-            postTitle: req.body.postTitle,
-            postText: req.body.postText,
-            postCategory: req.body.postCategory,
+            postTitle,
+            postText,
+            postCategory,
             adminID: req.user.id,
             slug: slugify(postTitle)
         });
